@@ -1,0 +1,172 @@
+/* ==========================================
+   PILLGUARD AI - CHAT & VOICE ASSISTANT STYLES
+   ========================================== */
+
+/* Light mode override cho toàn bộ trang nếu kích hoạt */
+body.dark-mode {
+  background-color: #0b0f19 !important;
+  color: #e5e7eb !important;
+}
+
+/* --- KHUNG KHÔNG GIAN CHAT --- */
+#chat-window {
+  position: relative;
+  height: 320px;
+  overflow-y: auto;
+  scroll-behavior: smooth;
+}
+
+/* Tùy chỉnh thanh cuộn cho đẹp mắt */
+#chat-window::-webkit-scrollbar {
+  width: 6px;
+}
+#chat-window::-webkit-scrollbar-thumb {
+  background: #374151;
+  border-radius: 10px;
+}
+
+/* --- BONG BÓNG TIN NHẮN (MESSAGE BUBBLES) --- */
+.message-line {
+  padding-bottom: 10px;
+  width: 85%;
+  word-break: break-word;
+  display: flex;
+  align-items: flex-end;
+  gap: 8px;
+}
+
+.message-box {
+  padding: 10px 14px;
+  border-radius: 16px;
+  display: inline-block;
+  position: relative;
+  background-color: #1f2937;
+  color: #f3f4f6;
+  border-bottom-left-radius: 2px;
+  word-wrap: break-word;
+  font-size: 0.875rem;
+  line-height: 1.4;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+
+/* Tin nhắn của Người Dùng (User Input) */
+.message-line.my-text {
+  flex-direction: row-reverse;
+  width: 100%;
+}
+
+.message-box.my-text {
+  background-color: #6d28d9;
+  color: #ffffff;
+  border-radius: 16px;
+  border-bottom-right-radius: 2px;
+}
+
+.me {
+  word-break: break-word;
+}
+
+/* Dark Mode Tinting cho Message Box */
+.message-box.my-text.dark {
+  background-color: #7c3aed;
+}
+
+.message-box.dark {
+  background-color: #374151;
+}
+
+/* --- NÚT BẤM VÀ INPUT --- */
+#message-input {
+  box-sizing: border-box;
+}
+
+#send-button {
+  border: none;
+  font: inherit;
+  cursor: pointer;
+  appearance: none;
+  transition: all 0.2s ease-in-out;
+}
+
+#send-button.microphone i {
+  color: #a855f7;
+}
+
+#send-button.send i {
+  color: #22c55e;
+}
+
+.repeat-button {
+  border: none;
+  background-color: transparent;
+  padding: 4px;
+  font-size: 16px;
+  color: #9ca3af;
+  cursor: pointer;
+  transition: color 0.2s;
+}
+
+.repeat-button:hover {
+  color: #c084fc;
+}
+
+/* --- LOADING DOTS ANIMATION --- */
+.loading-animation {
+  padding-bottom: 8px;
+  display: none;
+  width: fit-content;
+}
+
+.loading-animation.my-loading {
+  float: right;
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.loading-dots {
+  padding: 8px 14px;
+  border-radius: 16px;
+  background-color: #1f2937;
+  border-bottom-left-radius: 2px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.loading-dots.my-loading {
+  background-color: #6d28d9;
+  border-radius: 16px;
+  border-bottom-right-radius: 2px;
+}
+
+.dot {
+  width: 6px;
+  height: 6px;
+  margin: 0 2px;
+  border-radius: 50%;
+  animation: bounce 1.4s ease-in-out infinite;
+  background: #9ca3af;
+}
+
+.loading-dots.my-loading .dot {
+  background: #e9d5ff;
+}
+
+.dark-dot {
+  background: #d1d5db;
+}
+
+.dot:nth-of-type(1) { animation-delay: 0s; }
+.dot:nth-of-type(2) { animation-delay: 0.2s; }
+.dot:nth-of-type(3) { animation-delay: 0.4s; }
+
+@keyframes bounce {
+  0%, 80%, 100% { transform: translateY(0); }
+  40% { transform: translateY(-8px); }
+}
+
+/* Responsive Custom select cho Voice Options */
+#voice-options {
+  cursor: pointer;
+}

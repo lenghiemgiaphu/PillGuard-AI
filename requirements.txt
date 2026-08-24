@@ -1,0 +1,9 @@
+flask
+flask-cors
+pillow
+google-genai
+openai
+edge-tts
+google-genai
+python-dotenv
+gunicorn
