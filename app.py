@@ -25,7 +25,7 @@ CORS(app, resources={r"/*": {"origins": "*"}})
 
 
 # Lấy OpenAI API key từ môi trường
-OPENAI_API_KEY = "bleeegghhh"
+OPENAI_API_KEY = os.environ.get("OPENAI_API_KEY")
 if not OPENAI_API_KEY:
     print("⚠️ Chưa đặt biến môi trường OPENAI_API_KEY!")
 
