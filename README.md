@@ -1,1 +1,0 @@
-# PillGuard-AI
