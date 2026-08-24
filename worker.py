@@ -6,7 +6,6 @@ from openai import OpenAI
 import edge_tts
 
 OPENAI_API_KEY = os.environ.get("OPENAI_API_KEY")
-client = OpenAI(api_key=OPENAI_API_KEY)
 
 
 def speech_to_text(audio_binary):
