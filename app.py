@@ -44,7 +44,6 @@ def handle_ocr():
             return jsonify({'success': False, 'error': 'Không tìm thấy file hình ảnh trong request!'}), 400
 
         image = Image.open(io.BytesIO(file.read()))
-        # Dùng OPENAI_API_KEY (hoặc GEMINI_API_KEY tùy cấu hình của bạn)
         raw_text = process_handwriting_ocr(image, OPENAI_API_KEY)
         
         try:
@@ -161,6 +160,12 @@ def search_memos():
         return jsonify({'success': False, 'error': str(e)}), 500
 
 
+# Thêm Route alias này để khắc phục lỗi 404 /api/list-memos trên frontend
+@app.route('/api/list-memos', methods=['GET'])
+def list_memos():
+    return search_memos()
+
+
 @app.route('/api/save-memo', methods=['POST'])
 def save_memo():
     try:
@@ -170,7 +175,7 @@ def save_memo():
         raw_date = data.get('date', 'unknown-date').strip()
         safe_date = re.sub(r'[/\\?%*:|"<> ]', '-', raw_date)
 
-        # 2. Chuẩn hóa vấn đề chính cho tên file (dùng safe_concern thay vì raw_concern để tránh lỗi ký tự tiếng Việt/đặc biệt)
+        # 2. Chuẩn hóa vấn đề chính cho tên file
         raw_concern = data.get('mainConcern', 'General').strip()
         safe_concern = re.sub(r'[^a-zA-Z0-9]', '_', raw_concern)[:20].strip('_') or "General"
 
@@ -189,7 +194,7 @@ def save_memo():
         filename = f"Memo_{safe_date}_({next_index})_{safe_concern}.txt"
         filepath = os.path.join(MEMO_FOLDER, filename)
 
-        # 5. Khởi tạo nội dung phẳng (loại bỏ khoảng trắng indent thụt đầu dòng)
+        # 5. Khởi tạo nội dung phẳng
         content = (
             "==================================================\n"
             "               NHẬT KÝ SỨC KHỎE (HEALTH MEMO)\n"
