@@ -4,6 +4,5 @@ pillow
 google-genai
 openai
 edge-tts
-nest-asyncio
 python-dotenv
 gunicorn
