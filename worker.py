@@ -1,18 +1,11 @@
 import os
-import sys
 import asyncio
 import tempfile
 import json
-import re
 from openai import OpenAI
 import edge_tts
 
-# Lấy API Key từ biến môi trường Render
 OPENAI_API_KEY = os.environ.get("OPENAI_API_KEY")
-
-if not OPENAI_API_KEY:
-    print("⚠️ Chưa đặt biến môi trường OPENAI_API_KEY!")
-
 client = OpenAI(api_key=OPENAI_API_KEY)
 
 
@@ -30,13 +23,10 @@ def speech_to_text(audio_binary):
                 file=audio_file,
                 language="vi"
             )
-            
-        if os.path.exists(temp_audio_path):
-            os.remove(temp_audio_path)
-            
+        os.remove(temp_audio_path)
         return transcript_response.text
     except Exception as e:
-        print(f"❌ Lỗi khi chuyển Speech-to-Text: {e}")
+        print(f"Lỗi khi chuyển Speech-to-Text: {e}")
         return ""
 
 
@@ -55,36 +45,25 @@ def openai_process_message(user_message):
         )
         return response.choices[0].message.content
     except Exception as e:
-        print(f"❌ Lỗi OpenAI GPT: {e}")
+        print(f"Lỗi OpenAI GPT: {e}")
         return "Xin lỗi, hiện tại hệ thống AI đang bận. Bạn vui lòng thử lại sau."
 
 
 def text_to_speech(text, voice="vi-VN-HoaiMyNeural"):
-    """Tạo audio MP3 tối ưu tốc độ bằng cách làm sạch văn bản & tăng Timeout"""
-    if not text or not text.strip():
-        return b""
-
-    # 1. Làm sạch văn bản: Bỏ xuống dòng, khoảng trắng thừa để TTS xử lý siêu nhanh
-    clean_text = re.sub(r'\s+', ' ', text).strip()
-
-    async def _generate():
-        communicate = edge_tts.Communicate(clean_text, voice)
-        with tempfile.NamedTemporaryFile(suffix=".mp3", delete=False) as temp_mp3:
-            temp_mp3_path = temp_mp3.name
-        await communicate.save(temp_mp3_path)
-        
-        with open(temp_mp3_path, "rb") as f:
-            data = f.read()
-
-        if os.path.exists(temp_mp3_path):
-            os.remove(temp_mp3_path)
-        return data
-
     try:
-        # 2. Sử dụng asyncio.run an toàn cho Python 3.11+
-        return asyncio.run(_generate())
+        async def _generate_audio():
+            communicate = edge_tts.Communicate(text, voice)
+            with tempfile.NamedTemporaryFile(suffix=".mp3", delete=False) as temp_mp3:
+                temp_mp3_path = temp_mp3.name
+            await communicate.save(temp_mp3_path)
+            with open(temp_mp3_path, "rb") as f:
+                data = f.read()
+            os.remove(temp_mp3_path)
+            return data
+
+        return asyncio.run(_generate_audio())
     except Exception as e:
-        print(f"❌ Lỗi Text-to-Speech (Edge-TTS): {e}")
+        print(f"Lỗi Text-to-Speech (Edge-TTS): {e}")
         return b""
 
 
@@ -134,5 +113,5 @@ NGUYÊN TẮC AN TOÀN BẮT BUỘC:
         )
         return json.loads(response.choices[0].message.content)
     except Exception as e:
-        print(f"❌ Lỗi trích xuất Health Memo: {e}")
+        print(f"Lỗi trích xuất Health Memo: {e}")
         return None
