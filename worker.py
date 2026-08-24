@@ -3,9 +3,11 @@ import sys
 import asyncio
 import tempfile
 import json
-import subprocess
+import re
 from openai import OpenAI
+import edge_tts
 
+# Lấy API Key từ biến môi trường Render
 OPENAI_API_KEY = os.environ.get("OPENAI_API_KEY")
 
 if not OPENAI_API_KEY:
@@ -58,35 +60,31 @@ def openai_process_message(user_message):
 
 
 def text_to_speech(text, voice="vi-VN-HoaiMyNeural"):
-    """Tạo audio MP3 bằng CLI edge-tts qua Subprocess để tránh tràn bộ nhớ & lỗi Async Event Loop"""
+    """Tạo audio MP3 tối ưu tốc độ bằng cách làm sạch văn bản & tăng Timeout"""
     if not text or not text.strip():
         return b""
 
-    try:
+    # 1. Làm sạch văn bản: Bỏ xuống dòng, khoảng trắng thừa để TTS xử lý siêu nhanh
+    clean_text = re.sub(r'\s+', ' ', text).strip()
+
+    async def _generate():
+        communicate = edge_tts.Communicate(clean_text, voice)
         with tempfile.NamedTemporaryFile(suffix=".mp3", delete=False) as temp_mp3:
             temp_mp3_path = temp_mp3.name
-
-        # Gọi CLI edge-tts trực tiếp trong tiến trình riêng
-        cmd = [
-            sys.executable, "-m", "edge_tts",
-            "--voice", voice,
-            "--text", text,
-            "--write-media", temp_mp3_path
-        ]
+        await communicate.save(temp_mp3_path)
         
-        subprocess.run(cmd, check=True, timeout=15)
-
         with open(temp_mp3_path, "rb") as f:
             data = f.read()
 
         if os.path.exists(temp_mp3_path):
             os.remove(temp_mp3_path)
-
         return data
+
+    try:
+        # 2. Sử dụng asyncio.run an toàn cho Python 3.11+
+        return asyncio.run(_generate())
     except Exception as e:
-        print(f"❌ Lỗi Text-to-Speech (Edge-TTS Subprocess): {e}")
-        if 'temp_mp3_path' in locals() and os.path.exists(temp_mp3_path):
-            os.remove(temp_mp3_path)
+        print(f"❌ Lỗi Text-to-Speech (Edge-TTS): {e}")
         return b""
 
 
