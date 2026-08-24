@@ -9,36 +9,39 @@
   <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
   <script src="https://accounts.google.com/gsi/client" async defer></script>
   <style>
-    /* Cấu hình màu trắng & xanh dương cho người già */
-    body { font-size: 19px; background-color: #f8fafc; color: #1e293b; }
+    /* Cấu hình GA MÀU TRẮNG & XANH DƯƠNG */
+    body { font-size: 19px; background-color: #ffffff; color: #1e293b; }
     .hidden { display: none !important; }
     .page-active { display: block; animation: fadeIn 0.3s ease; }
     @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
     
-    /* Taskbar trắng */
-    .taskbar { position: fixed; bottom: 0; left: 0; right: 0; background: #ffffff; border-top: 2px solid #e2e8f0; display: flex; justify-content: space-around; padding: 12px 0; z-index: 50; }
+    /* Taskbar trắng xanh */
+    .taskbar { position: fixed; bottom: 0; left: 0; right: 0; background: #ffffff; border-top: 2px solid #3b82f6; display: flex; justify-content: space-around; padding: 12px 0; z-index: 50; box-shadow: 0 -5px 15px rgba(59, 130, 246, 0.1); }
     .taskbar-item { display: flex; flex-direction: column; align-items: center; color: #94a3b8; font-size: 13px; font-weight: bold; cursor: pointer; }
-    .taskbar-item.active { color: #2563eb; } /* Màu xanh dương chủ đạo */
+    .taskbar-item.active { color: #2563eb; }
 
-    /* Thẻ tính năng trắng */
-    .senior-card { background: white; border-radius: 30px; padding: 30px; border: 2px solid #e2e8f0; cursor: pointer; transition: 0.2s; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); }
-    .senior-card:active { transform: scale(0.95); background: #f1f5f9; }
+    /* Thẻ tính năng trắng xanh */
+    .senior-card { background: #f0f7ff; border-radius: 30px; padding: 30px; border: 2px solid #bfdbfe; cursor: pointer; transition: 0.2s; }
+    .senior-card:active { transform: scale(0.95); background: #dbeafe; }
     
-    /* Ô nhập liệu sáng */
-    input[type="text"], textarea { background: #ffffff; border: 2px solid #cbd5e1; color: #1e293b; border-radius: 15px; padding: 12px; }
-    input:focus { border-color: #3b82f6; outline: none; }
+    /* Ô nhập liệu */
+    input[type="text"], textarea { background: #ffffff; border: 2px solid #3b82f6; color: #1e3a8a; border-radius: 15px; padding: 12px; }
+
+    /* MÀU CHỮ XANH DƯƠNG CHO BẢNG LỊCH SỬ */
+    #history-table-body td { color: #1d4ed8 !important; font-weight: 600; }
+    #history-table-body .font-bold, #history-table-body .text-gray-700 { color: #1e40af !important; }
   </style>
 </head>
 <body class="min-h-screen font-sans pb-24">
 
   <!-- ==========================================
-       TRANG 1: GIỚI THIỆU (TRẮNG & XANH)
+       TRANG 1: GIỚI THIỆU (Giao diện Trắng - Xanh)
   =========================================== -->
   <section id="page-1" class="page-active min-h-screen flex flex-col items-center justify-center p-6 text-center bg-white">
     <div class="mb-8 text-[110px]">🛡️</div>
     <h1 class="text-5xl font-black text-blue-700 mb-4 tracking-wider uppercase">PILLGUARD AI</h1>
-    <p class="text-xl text-gray-500 mb-10 max-w-sm font-medium">Chào mừng bà! Con là trợ lý giúp bà quản lý thuốc an toàn và hiệu quả.</p>
-    <button onclick="navTo('page-2')" class="w-full max-w-xs bg-blue-600 hover:bg-blue-700 text-white font-black py-6 rounded-full text-2xl shadow-xl transition-all">
+    <p class="text-xl text-blue-600 mb-10 max-w-sm font-medium">Chào mừng bà! Con là người bạn giúp bà uống thuốc an toàn mỗi ngày.</p>
+    <button onclick="navTo('page-2')" class="w-full max-w-xs bg-blue-600 hover:bg-blue-700 text-white font-black py-6 rounded-full text-2xl shadow-lg transition-all active:scale-95">
       BẮT ĐẦU NGAY
     </button>
   </section>
@@ -46,104 +49,115 @@
   <!-- NỘI DUNG CHÍNH (ẨN KHI Ở TRANG 1) -->
   <div id="main-app-content" class="hidden">
     
-    <header class="bg-white border-b border-gray-200 py-4 px-6 mb-6 shadow-sm">
-      <div class="max-w-6xl mx-auto flex justify-between items-center">
+    <header class="bg-blue-600 py-4 px-6 mb-6 shadow-md">
+      <div class="max-w-6xl mx-auto flex justify-between items-center text-white">
         <div class="flex items-center gap-3">
           <span class="text-4xl">🛡️</span>
-          <h1 class="text-2xl font-black text-blue-700 uppercase">PILLGUARD AI</h1>
+          <h1 class="text-2xl font-black uppercase">PILLGUARD AI</h1>
         </div>
-        <div class="bg-blue-50 border border-blue-200 px-4 py-1.5 rounded-full text-xs text-blue-600 font-bold">
+        <div class="bg-white/20 border border-white/30 px-4 py-1.5 rounded-full text-xs font-bold">
           TRỢ LÝ SỨC KHỎE 🏆
         </div>
       </div>
     </header>
 
     <!-- ==========================================
-         TRANG 2: TRANG CHỦ (GIAO DIỆN TRẮNG)
+         TRANG 2: TRANG CHỦ
     =========================================== -->
     <section id="page-2" class="max-w-4xl mx-auto px-4 hidden">
-      <h2 class="text-3xl font-bold mb-8 text-gray-800">Bà muốn làm gì ạ? 😊</h2>
+      <h2 class="text-3xl font-bold mb-8 text-blue-900">Bà muốn làm gì ạ? 😊</h2>
       <div class="grid grid-cols-1 gap-6">
-          <div onclick="navTo('page-2-1')" class="senior-card border-l-[10px] border-l-blue-500 flex items-center gap-6">
+          <div onclick="navTo('page-2-1')" class="senior-card flex items-center gap-6 shadow-sm">
               <span class="text-6xl">📋</span>
-              <div><h3 class="text-2xl font-black text-blue-700 uppercase">Thêm đơn thuốc</h3><p class="text-gray-500 italic text-sm">Bà nhấn để chụp ảnh đơn bác sĩ kê</p></div>
+              <div>
+                  <h3 class="text-2xl font-black text-blue-700 uppercase">Thêm đơn thuốc</h3>
+                  <p class="text-blue-500 italic text-sm">Chụp ảnh đơn thuốc để con ghi nhớ ạ</p>
+              </div>
           </div>
-          <div onclick="navTo('page-2-2')" class="senior-card border-l-[10px] border-l-emerald-500 flex items-center gap-6">
+          <div onclick="navTo('page-2-2')" class="senior-card flex items-center gap-6 shadow-sm" style="background-color: #f0fdf4; border-color: #bbf7d0;">
               <span class="text-6xl">📅</span>
-              <div><h3 class="text-2xl font-black text-emerald-700 uppercase">Xem lịch sử</h3><p class="text-gray-500 italic text-sm">Kiểm tra thuốc bà đã uống hôm nay</p></div>
+              <div>
+                  <h3 class="text-2xl font-black text-emerald-700 uppercase">Xem lịch sử</h3>
+                  <p class="text-emerald-600 italic text-sm">Kiểm tra xem bà đã uống thuốc chưa</p>
+              </div>
           </div>
       </div>
     </section>
 
-    <!-- TRANG 2.1: CAMERA -->
+    <!-- TRANG 2.1: CAMERA (Trắng xanh) -->
     <section id="page-2-1" class="max-w-4xl mx-auto px-4 hidden">
-      <button onclick="navTo('page-2')" class="mb-4 text-blue-600 font-bold"><i class="fa fa-arrow-left"></i> Quay lại</button>
-      <div class="bg-white border border-gray-200 rounded-3xl p-6 shadow-md">
-          <h3 class="font-bold text-xl text-blue-700 mb-4">📷 Chụp Đơn Thuốc Bác Sĩ</h3>
-          <div class="relative w-full h-64 bg-black rounded-2xl border-4 border-dashed border-blue-200 flex items-center justify-center overflow-hidden mb-4 shadow-inner">
+      <button onclick="navTo('page-2')" class="mb-4 text-blue-600 font-bold flex items-center gap-2">
+          <i class="fa fa-arrow-left"></i> Quay lại Trang chủ
+      </button>
+      <div class="bg-white border-2 border-blue-100 rounded-3xl p-6 shadow-lg">
+          <h3 class="font-bold text-xl text-blue-700 mb-4 uppercase">📷 Chụp Đơn Thuốc Bác Sĩ</h3>
+          <div class="relative w-full h-64 bg-slate-100 rounded-2xl border-4 border-dashed border-blue-300 flex items-center justify-center overflow-hidden mb-4 shadow-inner">
             <video id="webcam-prescription" playsinline muted class="hidden w-full h-full object-cover"></video>
             <div id="prescription-placeholder" class="text-center p-4">
-              <span class="text-4xl block mb-2">📷</span><p class="text-gray-400 font-bold text-sm uppercase">Camera đang tắt</p>
+              <span class="text-4xl block mb-2">📷</span>
+              <p class="text-blue-400 font-bold text-sm uppercase">Bà hãy nhấn "Bật Camera" bên dưới</p>
             </div>
           </div>
           <input type="file" id="prescription-upload" accept="image/*" class="hidden" onchange="handlePrescriptionUpload(event)">
           <div class="grid grid-cols-2 gap-4 mb-6">
-            <button id="cam-toggle-1" onclick="toggleCamera('webcam-prescription', 'prescription-placeholder', 'snap-btn-1', 'cam-toggle-1')" class="bg-blue-50 text-blue-600 font-black py-5 rounded-2xl border-2 border-blue-200">BẬT CAMERA</button>
-            <label for="prescription-upload" class="bg-blue-50 text-blue-600 font-black py-5 rounded-2xl border-2 border-blue-200 text-center cursor-pointer flex items-center justify-center">MỞ THƯ MỤC</label>
+            <button id="cam-toggle-1" onclick="toggleCamera('webcam-prescription', 'prescription-placeholder', 'snap-btn-1', 'cam-toggle-1')" class="bg-white text-blue-600 font-black py-5 rounded-2xl border-2 border-blue-600 active:bg-blue-50">BẬT CAMERA</button>
+            <label for="prescription-upload" class="bg-white text-blue-600 font-black py-5 rounded-2xl border-2 border-blue-600 text-center cursor-pointer flex items-center justify-center active:bg-blue-50">MỞ TẢI ẢNH</label>
           </div>
-          <button id="snap-btn-1" onclick="capturePrescription()" class="hidden w-full bg-red-500 text-white font-black py-5 rounded-2xl text-xl mb-6 shadow-lg animate-pulse uppercase">CHỤP ẢNH</button>
+          <button id="snap-btn-1" onclick="capturePrescription()" class="hidden w-full bg-red-500 text-white font-black py-5 rounded-2xl text-xl mb-6 shadow-lg animate-pulse uppercase">CHỤP ẢNH NGAY</button>
           <div class="grid grid-cols-2 gap-4">
-              <button onclick="savePrescription()" class="bg-blue-600 text-white font-black py-5 rounded-2xl uppercase shadow-lg">LƯU TRỮ</button>
-              <button onclick="openVerificationModal()" class="bg-gray-100 text-gray-700 font-black py-5 rounded-2xl uppercase shadow-md">KIỂM TRA</button>
+              <button onclick="savePrescription()" class="bg-blue-600 text-white font-black py-5 rounded-2xl uppercase shadow-lg active:bg-blue-700">LƯU TRỮ</button>
+              <button onclick="openVerificationModal()" class="bg-blue-50 text-blue-700 font-black py-5 rounded-2xl uppercase shadow-sm border border-blue-200">KIỂM TRA</button>
           </div>
           <p id="prescription-file-name" class="text-xs text-center text-blue-600 mt-4 font-bold"></p>
       </div>
     </section>
 
-    <!-- TRANG 2.2: LỊCH SỬ (TRẮNG SẠCH) -->
+    <!-- TRANG 2.2: LỊCH SỬ (CHỮ XANH DƯƠNG) -->
     <section id="page-2-2" class="max-w-6xl mx-auto px-4 hidden">
-      <button onclick="navTo('page-2')" class="mb-4 text-blue-600 font-bold"><i class="fa fa-arrow-left"></i> Quay lại</button>
-      <div class="bg-white border border-gray-200 rounded-3xl p-6 shadow-md">
+      <button onclick="navTo('page-2')" class="mb-4 text-blue-600 font-bold flex items-center gap-2">
+          <i class="fa fa-arrow-left"></i> Quay lại
+      </button>
+      <div class="bg-white border-2 border-blue-100 rounded-3xl p-6 shadow-lg">
           <div class="flex flex-col md:flex-row justify-between items-center gap-4 mb-6">
-              <h3 class="font-bold text-2xl text-gray-800">📅 Lịch Uống Thuốc Hôm Nay</h3>
-              <button onclick="uploadAllToGoogleCalendar()" class="bg-blue-700 hover:bg-blue-800 text-white font-black py-4 px-6 rounded-2xl shadow-lg transition active:scale-95 uppercase text-sm">📅 THÊM VÀO LỊCH GOOGLE</button>
+              <h3 class="font-bold text-2xl text-blue-900">📅 Lịch Uống Thuốc Của Bà</h3>
+              <button onclick="uploadAllToGoogleCalendar()" class="bg-blue-700 hover:bg-blue-800 text-white font-black py-4 px-6 rounded-2xl shadow-md transition active:scale-95 uppercase text-sm">📅 THÊM VÀO LỊCH GOOGLE</button>
           </div>
-          <div class="overflow-x-auto rounded-2xl border border-gray-100">
+          <div class="overflow-x-auto rounded-2xl border border-blue-50 shadow-inner">
             <table class="w-full text-left">
-              <thead class="bg-gray-50 text-blue-700 uppercase text-xs font-black">
-                <tr><th class="p-4">Lộ trình</th><th class="p-4">Tên Thuốc & Liều</th><th class="p-4">Thời gian</th><th class="p-4">Ghi chú</th><th class="p-4 text-center">Xong</th></tr>
+              <thead class="bg-blue-50 text-blue-800 uppercase text-xs font-black border-b border-blue-100">
+                <tr><th class="p-4">Ngày</th><th class="p-4">Tên Thuốc & Liều</th><th class="p-4">Thời gian</th><th class="p-4">Ghi chú</th><th class="p-4 text-center">Đã uống</th></tr>
               </thead>
-              <tbody id="history-table-body" class="divide-y divide-gray-100 text-gray-700"></tbody>
+              <!-- CHỮ TRONG NÀY SẼ CÓ MÀU XANH DƯƠNG THEO CSS Ở TRÊN -->
+              <tbody id="history-table-body" class="divide-y divide-blue-50 bg-white"></tbody>
             </table>
           </div>
       </div>
     </section>
 
-    <!-- TRANG 3: TRỢ LÝ AI (XANH TÍM) -->
+    <!-- TRANG 3: TRỢ LÝ AI (Xanh dương chủ đạo) -->
     <section id="page-3" class="max-w-4xl mx-auto px-4 hidden h-[85vh] flex flex-col">
-        <h3 class="font-black text-2xl text-blue-700 mb-6 flex items-center gap-3">🎙️ TRỢ LÝ GIỌNG NÓI</h3>
+        <h3 class="font-black text-2xl text-blue-700 mb-6 flex items-center gap-3 uppercase">🎙️ Trợ lý của bà</h3>
         <div class="mb-4">
-            <select id="voice-options" class="w-full bg-white border-2 border-blue-100 rounded-2xl p-4 font-bold text-sm text-blue-700">
-                <option value="vi-VN-HoaiMyNeural">🇻🇳 Hoài Mỹ (Nữ)</option>
-                <option value="vi-VN-NamMinhNeural">🇻🇳 Nam Minh (Nam)</option>
-                <option value="en-US-AriaNeural">🇺🇸 Aria (English)</option>
-                <option value="en-US-GuyNeural">🇺🇸 Guy (English)</option>
+            <select id="voice-options" class="w-full bg-blue-50 border-2 border-blue-200 text-blue-700 rounded-2xl p-4 font-black text-sm uppercase">
+                <option value="vi-VN-HoaiMyNeural">🇻🇳 Giọng Hoài Mỹ (Nữ)</option>
+                <option value="vi-VN-NamMinhNeural">🇻🇳 Giọng Nam Minh (Nam)</option>
+                <option value="en-US-AriaNeural">🇺🇸 English Aria (Female)</option>
             </select>
         </div>
-        <div id="chat-window" class="flex-1 bg-blue-50/50 border border-blue-100 rounded-[40px] p-6 overflow-y-auto mb-6 shadow-inner">
+        <div id="chat-window" class="flex-1 bg-blue-50/30 border-2 border-blue-100 rounded-[40px] p-6 overflow-y-auto mb-6 shadow-inner">
           <div id="message-list" class="space-y-4">
-              <div class="text-left"><div class="bg-white border border-blue-100 p-4 rounded-2xl inline-block max-w-[85%] shadow-sm">Chào bà, con là trợ lý PillGuard. Bà cần con giúp gì ạ?</div></div>
+              <div class="text-left"><div class="bg-white border border-blue-100 p-4 rounded-2xl inline-block max-w-[85%] shadow-sm text-blue-900">Chào bà, con là trợ lý PillGuard. Bà cần con giúp gì về sức khỏe không ạ?</div></div>
           </div>
-          <div class="loading-animation my-loading hidden mt-2 text-center text-blue-400 italic">Con đang suy nghĩ...</div>
+          <div class="loading-animation my-loading hidden mt-2 text-center text-blue-500 font-bold italic">Bà đợi con suy nghĩ tí nhé...</div>
         </div>
         <div class="flex gap-3">
-          <input type="text" id="message-input" class="flex-1 bg-white border-2 border-blue-100 rounded-2xl px-6 py-4 outline-none focus:border-blue-500" placeholder="Bà hỏi con điều gì đó...">
-          <button id="send-button" class="bg-blue-600 text-white font-black px-8 py-4 rounded-2xl shadow-lg">NÓI</button>
+          <input type="text" id="message-input" class="flex-1 bg-white border-2 border-blue-200 rounded-2xl px-6 py-4 outline-none focus:border-blue-600 text-blue-900" placeholder="Bà hỏi con điều gì đó đi ạ...">
+          <button id="send-button" class="bg-blue-600 text-white font-black px-8 py-4 rounded-2xl shadow-lg active:bg-blue-700">NÓI</button>
         </div>
-        <button onclick="createMemoFromChat()" class="mt-4 w-full bg-emerald-600 text-white font-black py-4 rounded-2xl shadow-lg uppercase">📋 Lưu nhật ký cho bác sĩ</button>
+        <button onclick="createMemoFromChat()" class="mt-4 w-full bg-emerald-600 text-white font-black py-4 rounded-2xl shadow-lg uppercase active:bg-emerald-700">📋 Lưu nhật ký cho con cháu</button>
     </section>
 
-    <!-- TASKBAR DƯỚI CÙNG -->
+    <!-- TASKBAR (TRẮNG - XANH) -->
     <nav id="app-taskbar" class="taskbar hidden">
       <div onclick="navTo('page-2')" id="nav-home" class="taskbar-item active"><i class="fa fa-home"></i><span>TRANG CHỦ</span></div>
       <div onclick="navTo('page-3')" id="nav-chat" class="taskbar-item"><i class="fa fa-comments"></i><span>TRỢ LÝ AI</span></div>
@@ -151,42 +165,26 @@
   </div>
 
   <!-- MODAL XÁC NHẬN (TRẮNG SÁNG) -->
-  <div id="verification-modal" class="hidden fixed inset-0 z-[2000] bg-gray-900/60 backdrop-blur-sm flex items-center justify-center p-4">
-    <div class="bg-white border-2 border-blue-200 rounded-[40px] max-w-4xl w-full p-8 shadow-2xl">
-      <h3 class="text-3xl font-black text-blue-700 mb-6 uppercase tracking-tighter border-b pb-4">👁️ KIỂM TRA ĐƠN THUỐC</h3>
+  <div id="verification-modal" class="hidden fixed inset-0 z-[2000] bg-blue-900/40 backdrop-blur-sm flex items-center justify-center p-4">
+    <div class="bg-white border-4 border-blue-400 rounded-[40px] max-w-4xl w-full p-8 shadow-2xl">
+      <h3 class="text-3xl font-black text-blue-700 mb-6 uppercase border-b border-blue-100 pb-4">👁️ Bà kiểm tra lại đơn ạ</h3>
       <div class="max-h-[50vh] overflow-y-auto mb-8 pr-2">
         <table class="w-full text-left">
-          <thead><tr class="text-gray-400 border-b text-xs uppercase">
-            <th class="p-3">Tên thuốc</th><th class="p-3">Liều</th><th class="p-3">Giờ</th><th class="p-3">Ghi chú</th><th class="p-3 text-center">Xóa</th>
+          <thead><tr class="text-blue-400 border-b border-blue-50 text-xs uppercase">
+            <th class="p-3">Tên thuốc</th><th class="p-3">Liều</th><th class="p-3">Giờ</th><th class="p-3">Xác nhận</th>
           </tr></thead>
           <tbody id="modal-drug-list"></tbody>
         </table>
       </div>
-      <button onclick="addModalDrugRow()" class="mb-8 bg-blue-50 text-blue-700 px-6 py-3 rounded-2xl font-bold border border-blue-100">+ THÊM THUỐC MỚI</button>
+      <button onclick="addModalDrugRow()" class="mb-8 bg-blue-50 text-blue-700 px-6 py-3 rounded-2xl font-bold border border-blue-200">+ THÊM THUỐC MỚI</button>
       <div class="flex gap-4">
-        <button onclick="closeVerificationModal()" class="flex-1 py-5 bg-gray-100 text-gray-500 rounded-3xl font-black">HỦY BỎ</button>
-        <button onclick="applyModalChangesAndGo()" class="flex-1 py-5 bg-blue-600 text-white rounded-3xl font-black shadow-xl">XÁC NHẬN & LƯU</button>
+        <button onclick="closeVerificationModal()" class="flex-1 py-5 bg-gray-100 text-gray-500 rounded-3xl font-black uppercase">HỦY BỎ</button>
+        <button onclick="applyModalChangesAndGo()" class="flex-1 py-5 bg-blue-600 text-white rounded-3xl font-black shadow-xl uppercase active:bg-blue-700">XÁC NHẬN & LƯU</button>
       </div>
     </div>
   </div>
 
-  <!-- MODAL NHẬT KÝ (TRẮNG XANH LÁ) -->
-  <div id="memo-modal" class="hidden fixed inset-0 z-[2000] bg-gray-900/60 backdrop-blur-sm flex items-center justify-center p-4">
-    <div class="bg-white border-2 border-emerald-100 rounded-[40px] max-w-2xl w-full p-8 shadow-2xl overflow-y-auto max-h-[90vh]">
-        <h3 class="text-2xl font-black text-emerald-700 mb-6 uppercase">📋 Nhật ký sức khỏe của bà</h3>
-        <div id="memo-form" class="space-y-4">
-            <div><label class="font-bold text-gray-700 block mb-1">Ngày ghi:</label><input id="memo-date" class="w-full bg-gray-50 border-gray-200 rounded-xl p-3"></div>
-            <div><label class="font-bold text-gray-700 block mb-1">Bà đang mệt thế nào ạ:</label><textarea id="memo-main-concern" class="w-full bg-gray-50 border-gray-200 rounded-xl p-3 h-24"></textarea></div>
-            <div><label class="font-bold text-gray-700 block mb-1">Câu hỏi cho bác sĩ:</label><textarea id="memo-questions" class="w-full bg-gray-50 border-gray-200 rounded-xl p-3 h-24"></textarea></div>
-        </div>
-        <div class="flex gap-4 mt-8">
-            <button onclick="closeMemoModal()" class="flex-1 py-4 bg-gray-100 rounded-2xl font-bold">ĐÓNG</button>
-            <button onclick="saveHealthMemo()" class="flex-1 py-4 bg-emerald-600 text-white font-black rounded-2xl shadow-lg">💾 TẢI VỀ MÁY</button>
-        </div>
-    </div>
-  </div>
-
-  <!-- LOGIC ĐIỀU HƯỚNG & GOOGLE CALENDAR -->
+  <!-- LOGIC ĐIỀU HƯỚNG & GOOGLE CALENDAR (Vẫn giữ nguyên, không xóa) -->
   <script>
     function navTo(pageId) {
         document.querySelectorAll('section').forEach(s => s.classList.add('hidden'));
@@ -226,7 +224,7 @@
     }
     async function pushEvents(token) {
         const rows = document.querySelectorAll('#history-table-body tr');
-        if (rows.length === 0) { alert("Chưa có thuốc để thêm vào lịch bà ạ!"); return; }
+        if (rows.length === 0) { alert("Chưa có thuốc bà ạ!"); return; }
         const slots = {'Sáng': '08:00', 'Trưa': '12:00', 'Chiều': '16:00', 'Tối': '20:00'};
         const today = new Date().toISOString().split('T')[0];
         let count = 0;
@@ -242,9 +240,10 @@
                 }
             }
         }
-        alert(`Bà ơi, con đã thêm thành công ${count} lịch nhắc vào điện thoại bà rồi ạ!`);
+        alert(`Bà ơi, con đã thêm thành công ${count} lịch nhắc rồi ạ!`);
     }
 
+    // Các hàm để hỗ trợ script.js cũ
     function openVerificationModal() { document.getElementById('verification-modal').classList.remove('hidden'); }
     function closeVerificationModal() { document.getElementById('verification-modal').classList.add('hidden'); }
     function closeMemoModal() { document.getElementById('memo-modal').classList.add('hidden'); }
